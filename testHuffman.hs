@@ -28,30 +28,30 @@ decodeTests =
     ~?= "badcabdab"
   ]
 
-treeTests =
-  [ "tree handout"
-    ~: H.huffmanTree [('c', 10), ('a', 50), ('b', 84), ('d', 6)]
-    ~?= handoutTree
-  ]
+-- treeTests =
+--   [ "tree handout"
+--     ~: H.huffmanTree [('c', 10), ('a', 50), ('b', 84), ('d', 6)]
+--     ~?= handoutTree
+--   ]
 
-dictTests =
-  [ "dict handout"
-    ~: H.buildDict handoutTree ~?= Map.fromList [('a',[False,True]),
-                                                 ('b',[True]),
-                                                 ('c',[False,False,True]),
-                                                 ('d',[False,False,False])]
-  ]
+-- dictTests =
+--   [ "dict handout"
+--     ~: H.buildDict handoutTree ~?= Map.fromList [('a',[False,True]),
+--                                                  ('b',[True]),
+--                                                  ('c',[False,False,True]),
+--                                                  ('d',[False,False,False])]
+--   ]
 
-tests = decodeTests ++ treeTests ++ dictTests
--- More test cases during marking.
+-- tests = decodeTests ++ treeTests ++ dictTests
+-- -- More test cases during marking.
 
-main = do
-    args <- getArgs
-    case args of
-      a:_ | Just n <- readMaybe a, 0 <= n, n < length tests ->
-            do c@Counts{errors=e, failures=f} <- runTestTT (tests !! n)
-               if e == 0 && f == 0
-                   then return c
-                   else exitFailure
-          | otherwise -> error "No such test number."
-      _ -> runTestTT (TestList tests)
+-- main = do
+--     args <- getArgs
+--     case args of
+--       a:_ | Just n <- readMaybe a, 0 <= n, n < length tests ->
+--             do c@Counts{errors=e, failures=f} <- runTestTT (tests !! n)
+--                if e == 0 && f == 0
+--                    then return c
+--                    else exitFailure
+--           | otherwise -> error "No such test number."
+--       _ -> runTestTT (TestList tests)
