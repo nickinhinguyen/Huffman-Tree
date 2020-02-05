@@ -22,8 +22,15 @@ decode tree xs = go tree xs []
                                 in go tree remain (acc ++ [c])
         go _ [] acc = acc
 
-huffmanTree :: [(Char, Int)] -> HuffmanTree
-huffmanTree = error "TODO"
+
+make :: [(Char, Int)] -> PQueue pri job -> PQueue pri job
+make xs LeftistHeap.empty
+    |    make xs@((c,i) : xt) acc = let acc2 = PQueue.insert (Leaf i c) acc
+                             in make xt acc2
+    |    make [] acc = acc
+
+-- huffmanTree :: [(Char, Int)] -> HuffmanTree
+-- huffmanTree xs = make xs PQueue.empty
 
 buildDict :: HuffmanTree -> Map Char [Bool]
 buildDict = error "TODO"
