@@ -23,14 +23,30 @@ decode tree xs = go tree xs []
         go _ [] acc = acc
 
 
-make :: [(Char, Int)] -> PQueue pri job -> PQueue pri job
-make xs LeftistHeap.empty
-    |    make xs@((c,i) : xt) acc = let acc2 = PQueue.insert (Leaf i c) acc
-                             in make xt acc2
-    |    make [] acc = acc
+huffmanTree :: [(Char, Int)] -> HuffmanTree
+huffmanTree xs = huffmanTreehelper (make xs PQueue.empty)
+    where 
+        make xs@((c,i) : xt) acc = let acc2 = PQueue.insert i (Leaf i c) acc
+                                    in make xt acc2
+        make [] acc = acc
 
--- huffmanTree :: [(Char, Int)] -> HuffmanTree
--- huffmanTree xs = make xs PQueue.empty
+-- incomplete since only consider the case item extract is a leaf not branch and not merging tree                     
+huffmanTreehelper :: PQueue Int HuffmanTree -> HuffmanTree
+huffmanTreehelper queue = case e2 of 
+    Nothing -> min1
+    _ -> huffmanTreehelper (PQueue.insert (getFreq newtree) newtree rqueue2)
+    where 
+        e2 = PQueue.extractMin rqueue1
+        Just (rqueue1, min1) = PQueue.extractMin queue
+        Just (rqueue2, min2) = e2
+        newtree 
+            |f1 < f2 = Branch sum min1 min2
+            |otherwise = Branch sum min2 min1
+            where 
+                f1 = getFreq min1
+                f2 = getFreq min2
+                sum = f1 + f2
+        
 
 buildDict :: HuffmanTree -> Map Char [Bool]
 buildDict = error "TODO"
