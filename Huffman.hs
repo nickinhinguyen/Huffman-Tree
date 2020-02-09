@@ -47,9 +47,15 @@ huffmanTreehelper queue = case e2 of
                 f2 = getFreq min2
                 sum = f1 + f2
         
+findChar :: HuffmanTree -> [Bool]-> Map Char [Bool] -> Map Char [Bool]
+findChar (Leaf _ c) xs map = Map.insert (c,xs) map
+findChar (Branch _ lt rt) xs map = findChar (lt xs:False map) ++ findChar (rt xs:True map)
 
+    
+    
 buildDict :: HuffmanTree -> Map Char [Bool]
-buildDict = error "TODO"
+buildDict tree = findChar tree [] Map.empty
+    
 
 encode :: HuffmanTree -> [Char] -> [Bool]
 encode tree cs = concatMap (\c -> dict ! c) cs
